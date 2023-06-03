@@ -10,8 +10,8 @@ module.exports = {
     connection: {
       filename: './backend/data/users.db3'
     },
-    migrations: { directory: './backend/data/migrations'}
-    
+    migrations: { directory: './backend/data/migrations'},
+    seeds: { directory: './backend/data/seeds'}
   },
 
   staging: {

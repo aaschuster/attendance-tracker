@@ -9,6 +9,7 @@ exports.up = async function(knex) {
 
   .createTable("roles", table => {
     table.increments("role_id");
+    table.string("role");
   })
 
   .createTable("users", table => {
@@ -17,6 +18,9 @@ exports.up = async function(knex) {
         .notNullable();
     table.string("lastname")
         .notNullable();
+    table.string("hiredate")
+        .notNullable()
+        .defaultTo(new Date().toLocaleDateString());
     table.decimal("points")
         .notNullable()
         .defaultTo(startingPts)
