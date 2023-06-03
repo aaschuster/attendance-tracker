@@ -1,4 +1,4 @@
-const server = require("./backend/index");
+const server = require("./backend/server");
 
 const PORT = 1234;
 
