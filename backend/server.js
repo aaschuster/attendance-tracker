@@ -12,6 +12,28 @@ server.get("/", (req, res, next) => {
         .catch(next);
 })
 
+server.get("/:id", (req, res, next) => {
+    Users.get(req.params.id)
+        .then( user => res.json(user))
+        .catch(next);
+})
+
+server.post("/", (req, res, next) => {
+    Users.insert(req.body)
+})
+
+server.put("/:id", (req, res, next) => {
+    Users.update(req.body, req.params.id)
+        .then( numOfRecs => res.json(numOfRecs))
+        .catch(next);
+})
+
+server.delete("/:id", (req, res, next) => {
+    Users.del(req.params.id)
+        .then( numOfRecs => res.json(numOfRecs))
+        .catch(next);
+})
+
 server.use((req, res) => {
     res.status(404).json( {
         message: "Nothing found here..."
