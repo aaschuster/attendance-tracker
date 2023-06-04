@@ -4,32 +4,35 @@ const server = express();
 
 server.use(express.json());
 
-const Users = require("./model");
+const Model = require("./model");
+const {validateUserID, validateUser} = require("./middleware");
 
 server.get("/", (req, res, next) => {
-    Users.get()
+    Model.get()
         .then( users => res.json(users))
         .catch(next);
 })
 
-server.get("/:id", (req, res, next) => {
-    Users.get(req.params.id)
+server.get("/:id", validateUserID, (req, res, next) => {
+    Model.get(req.params.id)
         .then( user => res.json(user))
         .catch(next);
 })
 
-server.post("/", (req, res, next) => {
-    Users.insert(req.body)
+server.post("/", validateUser, (req, res, next) => {
+    Model.insert(req.body)
+        .then( userID => res.json(userID))
+        .catch(next);
 })
 
-server.put("/:id", (req, res, next) => {
-    Users.update(req.body, req.params.id)
+server.put("/:id", validateUserID, validateUser, (req, res, next) => {
+    Model.update(req.body, req.params.id)
         .then( numOfRecs => res.json(numOfRecs))
         .catch(next);
 })
 
-server.delete("/:id", (req, res, next) => {
-    Users.del(req.params.id)
+server.delete("/:id", validateUserID, (req, res, next) => {
+    Model.del(req.params.id)
         .then( numOfRecs => res.json(numOfRecs))
         .catch(next);
 })
