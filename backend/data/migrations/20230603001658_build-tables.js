@@ -23,7 +23,10 @@ exports.up = async function(knex) {
         .defaultTo(new Date().toLocaleDateString());
     table.decimal("points")
         .notNullable()
-        .defaultTo(startingPts)
+        .defaultTo(startingPts);
+    table.string("email")
+        .unique();
+    table.string("password");
     table.integer("role_id")
         .unsigned()
         .notNullable()

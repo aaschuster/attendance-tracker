@@ -10,7 +10,7 @@ module.exports.validateUserID = async (req, res, next) => {
 }
 
 module.exports.validateUser = async (req, res, next) => {
-    const { firstname, lastname, role_id } = req.body;
+    const { firstname, lastname, role_id, email } = req.body;
 
     let message = "";
 
@@ -20,8 +20,12 @@ module.exports.validateUser = async (req, res, next) => {
 
     if(!message) {
         const role = await Model.getRole(role_id);
-        if(role) return next();
-        message = "Please provide a valid role id.";
+        if(!role) message = "Please provide a valid role id.";
+    }
+
+    if(!message) {
+        const user = await Model.getBy({email: email});
+        if(user) message = "That email has already been used";
     }
 
     if(message) return next({

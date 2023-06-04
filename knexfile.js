@@ -10,6 +10,7 @@ module.exports = {
     connection: {
       filename: './backend/data/users.db3'
     },
+    useNullAsDefault: true,
     migrations: { directory: './backend/data/migrations'},
     seeds: { directory: './backend/data/seeds'}
   },

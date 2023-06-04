@@ -11,6 +11,10 @@ module.exports.get = id => {
     return db("users");
 }
 
+module.exports.getBy = filter => {
+    return db("users").where(filter);
+}
+
 module.exports.getRole = id => {
     if(id) {
         return db("roles").where("role_id", id).first();

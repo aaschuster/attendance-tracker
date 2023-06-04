@@ -24,12 +24,16 @@ exports.seed = async function(knex) {
     {
       firstname: "Erin",
       lastname: "Shuster",
-      role_id: 2
+      role_id: 2,
+      email: "eshuster@cfa.com",
+      password: "pass"
     },
     {
       firstname: "Bossman",
       lastname: "Wells",
-      role_id: 3
+      role_id: 3,
+      email: "bmwelly@ohyeah.com",
+      password: "pass"
     }
   ])
 };
