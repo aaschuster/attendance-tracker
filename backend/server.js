@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const express = require("express");
 
 const server = express();
@@ -5,7 +6,7 @@ const server = express();
 server.use(express.json());
 
 const Model = require("./model");
-const {validateUserID, validateUser} = require("./middleware");
+const {validateUserID, validateUser, validateLogin} = require("./middleware");
 
 server.get("/", (req, res, next) => {
     Model.get()
@@ -20,10 +21,31 @@ server.get("/:id", validateUserID, (req, res, next) => {
 })
 
 server.post("/", validateUser, (req, res, next) => {
-    Model.insert(req.body)
+
+    const user = req.body;
+
+    user.password = bcrypt.hashSync(user.password, 8);
+
+    Model.insert(user)
         .then( userID => res.json(userID))
         .catch(next);
 })
+
+server.post("/login", validateLogin, (req, res, next) => {
+    let { email, password } = req.body;
+
+    Model.getBy({email})
+        .then( user => {
+            if(bcrypt.compareSync(password, user.password)) return res.json({
+                message: "Login successful"
+            })
+            else next({
+                status: 401,
+                message: "Invalid credentials"
+            })
+        })
+        .catch(next);
+});
 
 server.put("/:id", validateUserID, validateUser, (req, res, next) => {
     Model.update(req.body, req.params.id)

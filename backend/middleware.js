@@ -1,6 +1,6 @@
 const Model = require("./model");
 
-module.exports.validateUserID = async (req, res, next) => {
+async function validateUserID(req, res, next) {
     req.user = await Model.get(req.params.id);
     if(req.user) return next();
     next( {
@@ -9,14 +9,32 @@ module.exports.validateUserID = async (req, res, next) => {
     } );
 }
 
-module.exports.validateUser = async (req, res, next) => {
-    const { firstname, lastname, role_id, email } = req.body;
+async function validateLogin(req, res, next) {
+    const { email, password } = req.body;
 
     let message = "";
 
-    if(!(firstname.trim())) message = "Please provide a first name.";
-    if(!(lastname.trim())) message = "Please provide a last name.";
+    if(!(password) || !password.trim()) message = "Please provide a password.";
+    if(!(email) || !email.trim()) message = "Please provide a email.";
+
+    if(message) return next({
+        message: message,
+        status: 422
+    });
+
+    next();
+}
+
+async function validateUser(req, res, next) {
+
+    const { firstname, lastname, role_id, email, password } = req.body;
+
+    let message = "";
+
+    if(!(password) || !password.trim()) message = "Please provide a password.";
     if(!role_id) message = "Please provide a valid role id.";
+    if(!(lastname) || !(lastname.trim())) message = "Please provide a last name.";
+    if(!(firstname) || !(firstname.trim())) message = "Please provide a first name.";
 
     if(!message) {
         const role = await Model.getRole(role_id);
@@ -24,7 +42,7 @@ module.exports.validateUser = async (req, res, next) => {
     }
 
     if(!message) {
-        const user = await Model.getBy({email: email});
+        const user = await Model.getBy({email: email}).first();
         if(user) message = "That email has already been used";
     }
 
@@ -34,4 +52,10 @@ module.exports.validateUser = async (req, res, next) => {
     })
 
     next();
+}
+
+module.exports = {
+    validateUserID,
+    validateUser,
+    validateLogin
 }

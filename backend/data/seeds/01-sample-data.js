@@ -2,6 +2,9 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
+
+const bcrypt = require("bcryptjs");
+
 exports.seed = async function(knex) {
   await knex('roles').insert([
     {
@@ -26,14 +29,14 @@ exports.seed = async function(knex) {
       lastname: "Shuster",
       role_id: 2,
       email: "eshuster@cfa.com",
-      password: "pass"
+      password: bcrypt.hashSync("pass", 8)
     },
     {
       firstname: "Bossman",
       lastname: "Wells",
       role_id: 3,
       email: "bmwelly@ohyeah.com",
-      password: "pass"
+      password: bcrypt.hashSync("pass", 8)
     }
   ])
 };
