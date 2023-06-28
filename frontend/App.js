@@ -1,9 +1,12 @@
 import React from "react";
 
+import Login from "./Login";
+
 function App() {
   return (
     <div>
-      <h1>attendance tracker</h1>
+      <h1>Attendance Tracker</h1>
+      <Login/>
     </div>
   );
 }
