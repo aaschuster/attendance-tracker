@@ -31,11 +31,11 @@ server.post("/", validateUser, (req, res, next) => {
         .catch(next);
 })
 
-server.post("/login", validateLogin, (req, res, next) => {
+server.post("/login", validateLogin, async (req, res, next) => {
     let { email, password } = req.body;
 
-    Model.getBy({email})
-        .then( user => {
+    Model.getBy({email: email})
+        .then( ([user]) => {
             if(bcrypt.compareSync(password, user.password)) return res.json({
                 message: "Login successful"
             })
