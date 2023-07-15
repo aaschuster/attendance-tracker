@@ -11,7 +11,7 @@ const CSS_LOADER = 'css-loader'
 const BABEL_LOADER = 'babel-loader'
 const STRING_REPLACE_LOADER = 'string-replace-loader'
 
-const SERVER_URL = /http:\/\/localhost:9000/g
+const SERVER_URL = /http:\/\/localhost:1234/g
 const FRONTEND_PORT = 3000
 
 const INDEX_HTML_PATH = './frontend/index.html'
@@ -73,7 +73,7 @@ if (!IS_DEV) {
       loader: STRING_REPLACE_LOADER,
       options: {
         search: SERVER_URL,
-        replace: '',
+        replace: ''
       },
     },
   })

@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import axios from "axios";
+
+const loginURL = "http://localhost:1234/login";
 
 const initFormValues = {
     email: "",
@@ -12,13 +15,20 @@ function Login() {
     const onChange = evt => {
         const { id, value } = evt.target;
         setValues({...values, [id]: value})
-        console.log(value);
     }
 
     const onSubmit = evt => {
         evt.preventDefault();
-        //add code here to send data to API
-        console.log("submit");
+
+        axios.post(loginURL, {
+            email: "eshuster@cfa.com",
+            password: "pass"
+        })
+            .then( res => {
+                localStorage.setItem("token", res.data.token);
+                console.log("login success");
+            })
+            .catch(err => console.error(err));
     }
 
     return (
