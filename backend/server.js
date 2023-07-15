@@ -37,10 +37,13 @@ server.post("/", validateUser, (req, res, next) => {
 server.post("/login", validateLogin, async (req, res, next) => {
     let { email, password } = req.body;
 
+    const token = await Model.login(req.body);
+
     Model.getBy({email: email})
         .then( ([user]) => {
             if(bcrypt.compareSync(password, user.password)) return res.json({
-                message: "Login successful"
+                message: "Login successful",
+                token: token            
             })
             else next({
                 status: 401,

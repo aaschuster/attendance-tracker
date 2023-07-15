@@ -1,4 +1,8 @@
 const db = require("./data/dbconfig");
+const jwt = require("jsonwebtoken");
+const secret = require("../consts");
+
+require("dotenv").config();
 
 module.exports.insert = user => {
     return db("users").insert(user);
@@ -13,6 +17,21 @@ module.exports.get = id => {
 
 module.exports.getBy = filter => {
     return db("users").where(filter);
+}
+
+module.exports.login = async user => {
+    try {
+        const token = jwt.sign(
+            {email: user.email}, 
+            process.env.JWT_KEY, 
+            {expiresIn: '1h'}
+        );
+        return token;
+    }
+    catch (err) {
+        return [422, { message: err.message}]
+    }
+    
 }
 
 module.exports.getRole = id => {

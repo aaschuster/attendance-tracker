@@ -9,7 +9,7 @@ const initFormValues = {
     password: ""
 }
 
-function Login( {onLogin} ) {
+function Login( {getUser} ) {
     const navigate = useNavigate();
 
     const [values, setValues] = useState(initFormValues);
@@ -29,9 +29,9 @@ function Login( {onLogin} ) {
             password: values.password
         })
             .then( res => {
-                onLogin(values.email);
                 localStorage.setItem("token", res.data.token);
-                console.log("login success");
+                localStorage.setItem("user", values.email);
+                getUser(values.email);
                 navigate("/profile");
             })
             .catch(err => {
