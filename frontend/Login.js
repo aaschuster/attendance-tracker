@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-const loginURL = "http://localhost:1234/login";
+import {serverUrl} from "../consts";
 
 const initFormValues = {
     email: "",
     password: ""
 }
 
-function Login() {
+function Login( {onLogin} ) {
     const navigate = useNavigate();
 
     const [values, setValues] = useState(initFormValues);
@@ -24,11 +24,12 @@ function Login() {
     const onSubmit = evt => {
         evt.preventDefault();
 
-        axios.post(loginURL, {
+        axios.post(`${serverUrl}/login`, {
             email: values.email,
             password: values.password
         })
             .then( res => {
+                onLogin(values.email);
                 localStorage.setItem("token", res.data.token);
                 console.log("login success");
                 navigate("/profile");

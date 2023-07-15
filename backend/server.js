@@ -14,7 +14,7 @@ server.use(cors());
 server.get("/", (req, res, next) => {
     Model.get()
         .then( users => res.json(users))
-        .catch(next);
+        .catch(next);        
 })
 
 server.get("/:id", validateUserID, (req, res, next) => {
@@ -49,6 +49,12 @@ server.post("/login", validateLogin, async (req, res, next) => {
         })
         .catch(next);
 });
+
+server.post("/getbyemail", (req, res, next) => {
+    Model.getBy({email: req.body.email})
+        .then( user => res.json(user))
+        .catch(next);
+})
 
 server.put("/:id", validateUserID, validateUser, (req, res, next) => {
     Model.update(req.body, req.params.id)
