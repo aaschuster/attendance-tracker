@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const Dotenv = require("dotenv-webpack");
 const path = require('path')
 
 const DEVELOPMENT = 'development'
@@ -32,6 +33,7 @@ const config = {
   },
   devtool: SOURCE_MAP,
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: INDEX_HTML_PATH,
     }),

@@ -1,6 +1,5 @@
 const consts = {
-    startingPts: 3,
-    serverUrl: "http://localhost:1234"
+    startingPts: 3
 };
 
 module.exports = consts;

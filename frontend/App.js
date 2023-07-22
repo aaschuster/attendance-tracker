@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {Routes, Route} from "react-router-dom";
 import axios from "axios";
 
-import {serverUrl} from "../consts";
-
 import cfalogo from "./cfalogo.png"
 
 import Login from "./Login";
@@ -21,12 +19,16 @@ const initUserValues = {
   user_id: null
 }
 
+const server = axios.create({
+  baseURL: `http://localhost:${process.env.PORT}`
+});
+
 function App() {
 
   const [user, setUser] = useState(initUserValues);
 
   const getUser = email => {
-    axios.post(`${serverUrl}/getbyemail`, {email: email})
+    server.post("/getbyemail", {email: email})
       .then( res =>  setUser(res.data[0]))
       .catch( err => console.log(err))
   }

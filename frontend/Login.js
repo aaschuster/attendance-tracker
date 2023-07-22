@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-import {serverUrl} from "../consts";
-
 const initFormValues = {
     email: "",
     password: ""
@@ -24,7 +22,7 @@ function Login( {getUser} ) {
     const onSubmit = evt => {
         evt.preventDefault();
 
-        axios.post(`${serverUrl}/login`, {
+        axios.post(`http://localhost:${process.env.PORT}/login`, {
             email: values.email,
             password: values.password
         })

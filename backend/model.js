@@ -1,8 +1,5 @@
 const db = require("./data/dbconfig");
 const jwt = require("jsonwebtoken");
-const secret = require("../consts");
-
-require("dotenv").config();
 
 module.exports.insert = user => {
     return db("users").insert(user);
