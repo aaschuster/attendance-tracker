@@ -1,0 +1,32 @@
+.main {
+    margin: auto auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wordmark {
+    display: flex; 
+    margin: 4% 0;   
+}
+
+.logo {
+    height: 1.8rem;
+    margin: 0 1%;
+}
+
+h1, h2 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', "Geneva", Verdana, sans-serif;
+}
+
+h1 {
+    color: #474747;
+    margin: 3% 0;
+}
+
+h2 {
+    color: #FF0F34;
+    margin: 0 0;
+}
+

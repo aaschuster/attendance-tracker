@@ -56,7 +56,7 @@ function Login( {getUser} ) {
                     value={values.password}
                     onChange={onChange}
                 />
-                <button type="submit">Submit</button>
+                <button type="submit">Login</button>
                 <p>{err}</p>
             </form>
         </div>

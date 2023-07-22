@@ -10,6 +10,7 @@ const STYLE_LOADER = 'style-loader'
 const CSS_LOADER = 'css-loader'
 const BABEL_LOADER = 'babel-loader'
 const STRING_REPLACE_LOADER = 'string-replace-loader'
+const FILE_LOADER = 'file-loader';
 
 const SERVER_URL = /http:\/\/localhost:1234/g
 const FRONTEND_PORT = 3000
@@ -61,6 +62,10 @@ const config = {
           CSS_LOADER,
         ],
       },
+      {
+        test: /\.png$/,
+        type: 'asset/resource'
+      }
     ],
   },
 }

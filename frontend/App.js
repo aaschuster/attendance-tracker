@@ -4,8 +4,12 @@ import axios from "axios";
 
 import {serverUrl} from "../consts";
 
+import cfalogo from "./cfalogo.png"
+
 import Login from "./Login";
 import Profile from "./Profile";
+
+import "./styles/app.css";
 
 const initUserValues = {
   email: "",
@@ -33,8 +37,12 @@ function App() {
   }, [])
 
   return (
-    <div>
+    <div className="main">
       <h1>Attendance Tracker</h1>
+      <div className="wordmark">
+        <img className="logo" src={cfalogo} alt="Chick-Fil-A logo"/>
+        <h2>Chick-Fil-A Strongsville</h2>
+      </div>
       <Routes>
         <Route path="/" exact element={<Login getUser={getUser}/>}/>
         <Route path="/profile" element={<Profile user={user}/>}/>
