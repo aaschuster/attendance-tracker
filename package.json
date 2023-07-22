@@ -23,7 +23,7 @@
   "scripts": {
     "start": "webpack serve --open",
     "server": "nodemon index.js",
-    "build": "react-scripts build",
+    "build": "npm run start npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
