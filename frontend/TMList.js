@@ -3,7 +3,7 @@ import axios from "axios";
 
 function TMList() {
 
-    const [TMs, setTMs] = useState();
+    const [TMs, setTMs] = useState([]);
 
     const server = axios.create({
         baseURL: `http://localhost:${process.env.PORT}`
@@ -11,13 +11,22 @@ function TMList() {
 
     useEffect(() => {
         server.get("/")
-            .then( ({data}) => console.log(data))
+            .then( ({data}) => setTMs(data))
             .catch( err => console.error(err));
-    });
+    }, []);
+
+    
 
     return (
         <div>
-            why hello there
+            { 
+                TMs.map(tm => {
+                    console.log(tm);
+                    return (
+                        <p>{tm.firstname} {tm.lastname} {tm.hiredate} {tm.points} {tm.email} </p>
+                    )
+                })
+            }
         </div>
     )
 
