@@ -1,26 +1,18 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-function TMDetail() {
+function TMDetail( {tm} ) {
 
     const navigate = useNavigate();
 
-    const initForm = {
-        firstname: "",
-        lastname: "",
-        points: 3,
-        hiredate: "",
-        role_id: 1,
-        email: ""
+    for(let el in tm) {
+        if(!tm[el])
+            tm[el]="";
     }
 
-    const [form, setForm] = useState(initForm);
+    const [form, setForm] = useState(tm);
     const [err, setErr] = useState("");
-
-    const server = axios.create({
-        baseURL: `http://localhost:${process.env.PORT}`
-    });
 
     function onChange(evt) {
         const {target} = evt;
@@ -28,7 +20,7 @@ function TMDetail() {
     }
 
     return (
-        <div>
+        <div className="userform">
             <form>
                 <label>
                     First name <input type="text" id="firstname" value={form.firstname} onChange={onChange}/>
@@ -52,8 +44,10 @@ function TMDetail() {
                         <option value={3}>Owner</option>
                     </select>
                 </label>
+                <div className="userformbuttons">
+                    <button onClick={() => navigate("/tmlist")}>Back to list</button>
+                </div>
             </form>
-            <button onClick={() => navigate("/tmlist")}>Back to list</button>
         </div>
     )
 }

@@ -1,22 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-function TMList() {
+function TMList( {TMs, setUserToView} ) {
 
-    const [TMs, setTMs] = useState([]);
-
-    const server = axios.create({
-        baseURL: `http://localhost:${process.env.PORT}`
-    });
-
-    useEffect(() => {
-        server.get("/")
-            .then( ({data}) => setTMs(data))
-            .catch( err => console.error(err));
-    }, []);
-
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
+    
+    function onClick(tmIdx) {
+        setUserToView(tmIdx);
+        navigate("/tmdetail");
+    }
 
     return (
         <div>
@@ -30,9 +22,9 @@ function TMList() {
                 <div className="email">Email</div>
             </div>
             { 
-                TMs.map(tm => {
+                TMs.map((tm, idx) => {
                     return (
-                        <div key={tm.user_id} className="tm">
+                        <div key={tm.user_id} className="tm" onClick={() => onClick(idx)}>
                             <div className="name">{tm.firstname } {tm.lastname} </div>
                             <div className="hiredate">{tm.hiredate} </div>
                             <div className="points">{tm.points} </div> 

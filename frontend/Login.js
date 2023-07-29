@@ -7,7 +7,7 @@ const initFormValues = {
     password: ""
 }
 
-function Login( {getUser} ) {
+function Login( {getCurrentUser} ) {
     const navigate = useNavigate();
 
     const [values, setValues] = useState(initFormValues);
@@ -29,10 +29,11 @@ function Login( {getUser} ) {
             .then( res => {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", values.email);
-                getUser(values.email);
+                getCurrentUser(values.email);
                 navigate("/tmlist");
             })
             .catch(err => {
+                console.error(err);
                 setErr("Login failed");
             });
     }

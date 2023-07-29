@@ -41,7 +41,7 @@ function NewUser() {
     }
 
     return (
-        <div className="newuser">
+        <div className="userform">
             <form onSubmit={onSubmit}>
                 <label>
                     First name <input type="text" id="firstname" value={form.firstname} onChange={onChange}/>
@@ -65,7 +65,7 @@ function NewUser() {
                         <option value={3}>Owner</option>
                     </select>
                 </label>
-                <div className="buttons">
+                <div className="userformbuttons">
                     <button type="submit">Submit</button>
                     <button onClick={() => navigate("/tmlist")}>Cancel</button>
                 </div>

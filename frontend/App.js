@@ -28,17 +28,25 @@ const server = axios.create({
 
 function App() {
 
-  const [user, setUser] = useState(initUserValues);
+  const [TMs, setTMs] = useState([]);
 
-  const getUser = email => {
+  const [currentUser, setCurrentUser] = useState(initUserValues);
+  const [userToView, setUserToView] = useState();
+
+  const getCurrentUser = email => {
     server.post("/getbyemail", {email: email})
-      .then( res =>  setUser(res.data[0]))
+      .then( res =>  setCurrentUser(res.data[0]))
       .catch( err => console.log(err))
   }
 
   useEffect(() => {
+
+    server.get("/")
+      .then( ({data}) => setTMs(data))
+      .catch( err => console.error(err));
+
     const email = localStorage.getItem("user");
-    if(email) getUser(email);
+    if(email) getCurrentUser(email);
   }, [])
 
   return (
@@ -49,11 +57,11 @@ function App() {
         <h2>Chick-Fil-A Strongsville</h2>
       </div>
       <Routes>
-        <Route path="/" exact element={<Login getUser={getUser}/>}/>
-        <Route path="/profile" element={<Profile user={user}/>}/>
-        <Route path="/tmlist" element={<TMList/>}/>
+        <Route path="/" exact element={<Login getCurrentUser={getCurrentUser}/>}/>
+        <Route path="/profile" element={<Profile currentUuser={currentUser}/>}/>
+        <Route path="/tmlist" element={<TMList TMs={TMs} setUserToView={setUserToView}/>}/>
         <Route path="/newuser" element={<NewUser/>}/>
-        <Route path="/tmdetail" element={<TMDetail/>}/>
+        <Route path="/tmdetail" element={<TMDetail tm={TMs[userToView]}/>}/>
       </Routes>
     </div>
   );
