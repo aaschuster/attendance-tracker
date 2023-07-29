@@ -3,11 +3,11 @@ form {
     flex-direction: column;
 }
 
-form label {
+button, form label {
+    width: fit-content;
     margin: 0.5% auto;
 }
 
-button {
-    width: fit-content;
-    margin: 0 auto;
+p {
+    text-align: center;
 }

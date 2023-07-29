@@ -27,11 +27,9 @@ async function validateLogin(req, res, next) {
 
 async function validateUser(req, res, next) {
 
-    const { firstname, lastname, role_id, email, password } = req.body;
-
+    const { firstname, lastname, role_id, email } = req.body;
+    
     let message = "";
-
-    if(!(password) || !password.trim()) message = "Please provide a password.";
     if(!role_id) message = "Please provide a valid role id.";
     if(!(lastname) || !(lastname.trim())) message = "Please provide a last name.";
     if(!(firstname) || !(firstname.trim())) message = "Please provide a first name.";
@@ -41,7 +39,7 @@ async function validateUser(req, res, next) {
         if(!role) message = "Please provide a valid role id.";
     }
 
-    if(!message) {
+    if(!message && email) {
         const user = await Model.getBy({email: email}).first();
         if(user) message = "That email has already been used";
     }
