@@ -1,0 +1,31 @@
+.tm {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto auto;
+    text-align: center;
+}
+
+.labels {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: 2% auto;
+    text-align: center;
+}
+
+.name {
+    width: 25%;
+}
+
+.hiredate {
+    width: 15%;
+}
+
+.points {
+    width: 15%;
+}
+
+.email {
+    width: 40%;
+} 

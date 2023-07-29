@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./styles/TMList.css";
 
 function TMList() {
 
@@ -19,11 +20,21 @@ function TMList() {
 
     return (
         <div>
+            <div className="labels">
+                <div className="name">Name</div>
+                <div className="hiredate">Hire Date</div>
+                <div className="points">Current points</div>
+                <div className="email">Email</div>
+            </div>
             { 
                 TMs.map(tm => {
-                    console.log(tm);
                     return (
-                        <p>{tm.firstname} {tm.lastname} {tm.hiredate} {tm.points} {tm.email} </p>
+                        <div key={tm.user_id} className="tm">
+                            <div className="name">{tm.firstname } {tm.lastname} </div>
+                            <div className="hiredate">{tm.hiredate} </div>
+                            <div className="points">{tm.points} </div> 
+                            <div className="email">{tm.email || <>NA</>}</div>
+                        </div>
                     )
                 })
             }

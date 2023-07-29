@@ -1,6 +1,4 @@
 .main {
-    margin: auto auto;
-    width: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,11 +6,14 @@
 
 .wordmark {
     display: flex; 
-    margin: 4% 0;   
+    justify-content: center;
+    margin: auto auto;
+    margin-bottom: 2%;
+    width: 350px;
 }
 
 .logo {
-    height: 1.8rem;
+    height: 1.6rem;
     margin: auto 1%;
 }
 
@@ -22,11 +23,13 @@ h1, h2 {
 
 h1 {
     color: #474747;
-    margin: 3% 0;
+    margin: 2% 0;
+    text-align: center;
 }
 
 h2 {
     color: #FF0F34;
     margin: 0 0;
+    font-size: 1.4rem;
 }
 
