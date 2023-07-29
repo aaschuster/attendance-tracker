@@ -7,6 +7,7 @@ import cfalogo from "./cfalogo.png"
 import Login from "./Login";
 import Profile from "./Profile";
 import TMList from "./TMList";
+import NewUser from "./NewUser";
 
 import "./styles/app.css";
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="/" exact element={<Login getUser={getUser}/>}/>
         <Route path="/profile" element={<Profile user={user}/>}/>
         <Route path="/tmlist" element={<TMList/>}/>
+        <Route path="/newuser" element={<NewUser/>}/>
       </Routes>
     </div>
   );

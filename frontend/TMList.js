@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
-import "./styles/TMList.css";
+import "./styles/tmlist.css";
 
 function TMList() {
 
@@ -20,6 +21,7 @@ function TMList() {
 
     return (
         <div>
+            <NavLink to="/newuser">Add new teammember</NavLink>
             <div className="labels">
                 <div className="name">Name</div>
                 <div className="hiredate">Hire Date</div>

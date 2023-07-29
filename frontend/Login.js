@@ -32,7 +32,7 @@ function Login( {getUser} ) {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", values.email);
                 getUser(values.email);
-                navigate("/profile");
+                navigate("/tmlist");
             })
             .catch(err => {
                 setErr("Login failed");
