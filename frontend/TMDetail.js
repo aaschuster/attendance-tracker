@@ -2,10 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-function NewUser() {
-
-    let today = new Date().toJSON();
-    today = today.slice(0, 10);
+function TMDetail() {
 
     const navigate = useNavigate();
 
@@ -13,7 +10,7 @@ function NewUser() {
         firstname: "",
         lastname: "",
         points: 3,
-        hiredate: today,
+        hiredate: "",
         role_id: 1,
         email: ""
     }
@@ -25,24 +22,14 @@ function NewUser() {
         baseURL: `http://localhost:${process.env.PORT}`
     });
 
-    function onSubmit(evt) {
-        evt.preventDefault();
-        if(form.email == "")
-            form.email = null;
-                    
-        server.post("/", form)
-            .then( res => navigate("/tmlist"))
-            .catch( err => setErr("Failed to add team member."));
-    }
-
     function onChange(evt) {
         const {target} = evt;
         setForm({...form, [target.id]: target.value});
     }
 
     return (
-        <div className="newuser">
-            <form onSubmit={onSubmit}>
+        <div>
+            <form>
                 <label>
                     First name <input type="text" id="firstname" value={form.firstname} onChange={onChange}/>
                 </label>
@@ -65,14 +52,10 @@ function NewUser() {
                         <option value={3}>Owner</option>
                     </select>
                 </label>
-                <div className="buttons">
-                    <button type="submit">Submit</button>
-                    <button onClick={() => navigate("/tmlist")}>Cancel</button>
-                </div>
             </form>
-            <p>{err}</p>
+            <button onClick={() => navigate("/tmlist")}>Back to list</button>
         </div>
     )
 }
 
-export default NewUser;
+export default TMDetail;

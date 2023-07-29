@@ -1,3 +1,5 @@
+/* header */
+
 .main {
     display: flex;
     flex-direction: column;
@@ -33,3 +35,70 @@ h2 {
     font-size: 1.4rem;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.login button, .login input {
+    width: fit-content;
+    margin: 0.5% auto;
+}
+
+p {
+    text-align: center;
+}
+
+.tm, .labels {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto auto;
+    text-align: center;
+}
+
+.tm {
+    line-height: 1.3;
+}
+
+.labels {
+    font-size: 1.2rem;
+    line-height: 2;
+}
+
+.name {
+    width: 25%;
+}
+
+.hiredate {
+    width: 15%;
+    min-width: 110px;
+}
+
+.points {
+    min-width: 135px;
+    width: 15%;
+}
+
+.email {
+    width: 40%;
+} 
+
+.name, .hiredate, .points, .email {
+    border: 1px solid lightgray;
+}
+
+.newuserbutton {
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.newuser label {
+    margin: 0.3% auto;
+}
+
+.newuser .buttons button {
+    margin: 0.5% 0.5%;
+}
