@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-function TMDetail( {tm} ) {
+function TMDetail( {tm, goToFreshList} ) {
 
     const navigate = useNavigate();
 
@@ -15,13 +15,29 @@ function TMDetail( {tm} ) {
     const [err, setErr] = useState("");
 
     function onChange(evt) {
+        setErr("");
         const {target} = evt;
         setForm({...form, [target.id]: target.value});
     }
 
+    const server = axios.create({
+        baseURL: `http://localhost:${process.env.PORT}`
+    });
+
+    function onSubmit(evt) {
+        evt.preventDefault();
+
+        server.put(`/${tm.user_id}`, form)
+            .then( () => {goToFreshList()})
+            .catch( err => {
+                console.log(err);
+                setErr(err.message)
+            });
+    }
+
     return (
         <div className="userform">
-            <form>
+            <form onSubmit={onSubmit}>
                 <label>
                     First name <input type="text" id="firstname" value={form.firstname} onChange={onChange}/>
                 </label>
@@ -46,8 +62,10 @@ function TMDetail( {tm} ) {
                 </label>
                 <div className="userformbuttons">
                     <button onClick={() => navigate("/tmlist")}>Back to list</button>
+                    <button type="submit">Update</button>
                 </div>
             </form>
+            <p>{err}</p>
         </div>
     )
 }

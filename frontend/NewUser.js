@@ -1,13 +1,11 @@
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function NewUser() {
+function NewUser( {goToFreshList} ) {
 
     let today = new Date().toJSON();
     today = today.slice(0, 10);
-
-    const navigate = useNavigate();
 
     const initForm = {
         firstname: "",
@@ -17,6 +15,8 @@ function NewUser() {
         role_id: 1,
         email: ""
     }
+
+    const navigate = useNavigate();
 
     const [form, setForm] = useState(initForm);
     const [err, setErr] = useState("");
@@ -31,7 +31,7 @@ function NewUser() {
             form.email = null;
                     
         server.post("/", form)
-            .then( res => navigate("/tmlist"))
+            .then( res => goToFreshList())
             .catch( err => setErr("Failed to add team member."));
     }
 

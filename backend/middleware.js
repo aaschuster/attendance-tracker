@@ -27,7 +27,7 @@ async function validateLogin(req, res, next) {
 
 async function validateUser(req, res, next) {
 
-    const { firstname, lastname, role_id, email } = req.body;
+    const { firstname, lastname, role_id, email, user_id } = req.body;
     
     let message = "";
     if(!role_id) message = "Please provide a valid role id.";
@@ -39,9 +39,13 @@ async function validateUser(req, res, next) {
         if(!role) message = "Please provide a valid role id.";
     }
 
-    if(!message && email) {
-        const user = await Model.getBy({email: email}).first();
-        if(user) message = "That email has already been used";
+    if(!message && user_id && email) { //we are doing an update since user has an id
+        const user = await Model.get(user_id);
+
+        if(email !== user.email) {
+            const user = await Model.getBy({email: email}).first();
+            if(user) message = "That email has already been used";
+        }
     }
 
     if(message) return next({

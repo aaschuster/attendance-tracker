@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {Routes, Route} from "react-router-dom";
+import React, { useState, useEffect} from "react";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 import cfalogo from "./cfalogo.png"
@@ -33,18 +33,22 @@ function App() {
   const [currentUser, setCurrentUser] = useState(initUserValues);
   const [userToView, setUserToView] = useState();
 
+  const navigate = useNavigate();
+
   const getCurrentUser = email => {
     server.post("/getbyemail", {email: email})
       .then( res =>  setCurrentUser(res.data[0]))
       .catch( err => console.log(err))
   }
 
-  useEffect(() => {
-
+  const goToFreshList = () => {
     server.get("/")
       .then( ({data}) => setTMs(data))
       .catch( err => console.error(err));
+    navigate("/tmlist");
+  }
 
+  useEffect(() => {
     const email = localStorage.getItem("user");
     if(email) getCurrentUser(email);
   }, [])
@@ -57,11 +61,11 @@ function App() {
         <h2>Chick-Fil-A Strongsville</h2>
       </div>
       <Routes>
-        <Route path="/" exact element={<Login getCurrentUser={getCurrentUser}/>}/>
+        <Route path="/" exact element={<Login getCurrentUser={getCurrentUser} goToFreshList={goToFreshList}/>}/>
         <Route path="/profile" element={<Profile currentUuser={currentUser}/>}/>
         <Route path="/tmlist" element={<TMList TMs={TMs} setUserToView={setUserToView}/>}/>
-        <Route path="/newuser" element={<NewUser/>}/>
-        <Route path="/tmdetail" element={<TMDetail tm={TMs[userToView]}/>}/>
+        <Route path="/newuser" element={<NewUser goToFreshList={goToFreshList}/>}/>
+        <Route path="/tmdetail" element={<TMDetail tm={TMs[userToView]} goToFreshList={goToFreshList}/>}/>
       </Routes>
     </div>
   );

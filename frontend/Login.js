@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 const initFormValues = {
@@ -7,8 +6,7 @@ const initFormValues = {
     password: ""
 }
 
-function Login( {getCurrentUser} ) {
-    const navigate = useNavigate();
+function Login( {getCurrentUser, goToFreshList} ) {
 
     const [values, setValues] = useState(initFormValues);
     const [err, setErr] = useState("");
@@ -30,7 +28,7 @@ function Login( {getCurrentUser} ) {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", values.email);
                 getCurrentUser(values.email);
-                navigate("/tmlist");
+                goToFreshList();
             })
             .catch(err => {
                 console.error(err);
