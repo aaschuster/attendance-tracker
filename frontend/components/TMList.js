@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 import TM from "./TM";
 
-function TMList( {TMs, setUserToView, currentUserID} ) {
+function TMList( {TMs, setUserToViewIdx, currentUserIdx} ) {
 
     const navigate = useNavigate();
-
-    const [currentUserIdx, setCurrentUserIdx] = useState();
     const [otherTMs, setOtherTMs] = useState([]);
     
     function onClick(tmIdx) {
-        setUserToView(tmIdx);
+        setUserToViewIdx(tmIdx);
         navigate("/tmdetail");
     }
 
@@ -20,9 +18,7 @@ function TMList( {TMs, setUserToView, currentUserID} ) {
         const otherTMsArr = [];
 
         TMs.forEach( (tm, idx) => {
-            if(currentUserID === tm.user_id)
-                setCurrentUserIdx(idx);
-            else 
+            if(currentUserIdx !== idx)
                 otherTMsArr.push(idx);
         })
         

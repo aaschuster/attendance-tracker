@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-function TMDetail( {tm, goToFreshList} ) {
+function TMDetail( {tm, goToFreshList, isCurrent} ) {
 
     const navigate = useNavigate();
 
@@ -60,10 +60,18 @@ function TMDetail( {tm, goToFreshList} ) {
                         <option value={3}>Owner</option>
                     </select>
                 </label>
+
                 <div className="userformbuttons">
                     <button onClick={() => navigate("/tmlist")}>Cancel changes</button>
                     <button type="submit">Save changes</button>
                 </div>
+                {
+                    isCurrent ?
+                        <div>
+                            Oh Yeah its current!
+                        </div>
+                    : <></>
+                }
             </form>
             <p>{err}</p>
         </div>

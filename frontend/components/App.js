@@ -9,19 +9,8 @@ import Profile from "./Profile";
 import TMList from "./TMList";
 import TMDetail from "./TMDetail";
 import NewUser from "./NewUser";
-import Account from "./Account";
 
 import "../styles/app.css";
-
-const initUserValues = {
-  email: "",
-  firstname: "",
-  lastname: "",
-  hiredate: "",
-  points: null,
-  role_id: null,
-  user_id: null
-}
 
 const server = axios.create({
   baseURL: `http://localhost:${process.env.PORT}`
@@ -31,27 +20,35 @@ function App() {
 
   const [TMs, setTMs] = useState([]);
 
-  const [currentUser, setCurrentUser] = useState(initUserValues);
-  const [userToView, setUserToView] = useState();
+  const [currentUserIdx, setCurrentUserIdx] = useState(null);
+  const [userToViewIdx, setUserToViewIdx] = useState(null);
 
   const navigate = useNavigate();
 
-  const getCurrentUser = email => {
-    server.post("/getbyemail", {email: email})
-      .then( res =>  setCurrentUser(res.data[0]))
-      .catch( err => console.log(err))
-  }
-
-  const goToFreshList = () => {
+  const getTMs = () => {
     server.get("/")
       .then( ({data}) => setTMs(data))
       .catch( err => console.error(err));
+  }
+
+  const getCurrentUserIdx = email => {
+    
+    TMs.forEach( (tm, idx) => {
+      if(tm.email === email)
+        setCurrentUserIdx(idx);
+    })
+
+  }
+
+  const goToFreshList = () => {
+    getTMs();
     navigate("/tmlist");
   }
 
   useEffect(() => {
+    getTMs();
     const email = localStorage.getItem("user");
-    if(email) getCurrentUser(email);
+    if(email) getCurrentUserIdx(email);
   }, [])
 
   return (
@@ -62,12 +59,32 @@ function App() {
         <h2>Chick-Fil-A Strongsville</h2>
       </div>
       <Routes>
-        <Route path="/" exact element={<Login getCurrentUser={getCurrentUser} goToFreshList={goToFreshList}/>}/>
-        <Route path="/profile" element={<Profile currentUuser={currentUser}/>}/>
-        <Route path="/tmlist" element={<TMList TMs={TMs} setUserToView={setUserToView} currentUserID={currentUser.user_id}/>}/>
-        <Route path="/newuser" element={<NewUser goToFreshList={goToFreshList}/>}/>
-        <Route path="/tmdetail" element={<TMDetail tm={TMs[userToView]} goToFreshList={goToFreshList}/>}/>
-        <Route path="/account" element={<Account/>}/>
+
+        <Route path="/" exact element={
+          <Login 
+            getCurrentUserIdx={getCurrentUserIdx}
+            goToFreshList={goToFreshList}
+          />}
+        />
+
+        <Route path="/tmlist" element={
+          <TMList
+            TMs={TMs}
+            setUserToViewIdx={setUserToViewIdx} 
+            currentUserIdx={currentUserIdx}
+          />}
+        />
+
+        <Route path="/newuser" element={
+          <NewUser goToFreshList={goToFreshList}/>}
+        />
+        <Route path="/tmdetail" element={
+          <TMDetail 
+            tm={TMs[userToViewIdx]} 
+            goToFreshList={goToFreshList} 
+            isCurrent={userToViewIdx===currentUserIdx}
+          />}
+        />
       </Routes>
     </div>
   );

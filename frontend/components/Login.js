@@ -6,7 +6,7 @@ const initFormValues = {
     password: ""
 }
 
-function Login( {getCurrentUser, goToFreshList} ) {
+function Login( {getCurrentUserIdx, goToFreshList} ) {
 
     const [values, setValues] = useState(initFormValues);
     const [err, setErr] = useState("");
@@ -27,7 +27,7 @@ function Login( {getCurrentUser, goToFreshList} ) {
             .then( res => {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", values.email);
-                getCurrentUser(values.email);
+                getCurrentUserIdx(values.email);
                 goToFreshList();
             })
             .catch(err => {
