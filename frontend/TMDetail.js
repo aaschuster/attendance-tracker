@@ -61,8 +61,8 @@ function TMDetail( {tm, goToFreshList} ) {
                     </select>
                 </label>
                 <div className="userformbuttons">
-                    <button onClick={() => navigate("/tmlist")}>Back to list</button>
-                    <button type="submit">Update</button>
+                    <button onClick={() => navigate("/tmlist")}>Cancel changes</button>
+                    <button type="submit">Save changes</button>
                 </div>
             </form>
             <p>{err}</p>

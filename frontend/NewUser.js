@@ -66,8 +66,8 @@ function NewUser( {goToFreshList} ) {
                     </select>
                 </label>
                 <div className="userformbuttons">
-                    <button type="submit">Submit</button>
                     <button onClick={() => navigate("/tmlist")}>Cancel</button>
+                    <button type="submit">Submit</button>
                 </div>
             </form>
             <p>{err}</p>

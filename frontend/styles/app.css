@@ -101,6 +101,10 @@ p {
 }
 
 .tm:hover {
-    background-color: lightskyblue;
+    background-color: silver;
     cursor: pointer;
+}
+
+.currentuser {
+    background-color: gainsboro;
 }

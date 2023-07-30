@@ -63,7 +63,7 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Login getCurrentUser={getCurrentUser} goToFreshList={goToFreshList}/>}/>
         <Route path="/profile" element={<Profile currentUuser={currentUser}/>}/>
-        <Route path="/tmlist" element={<TMList TMs={TMs} setUserToView={setUserToView}/>}/>
+        <Route path="/tmlist" element={<TMList TMs={TMs} setUserToView={setUserToView} currentUserID={currentUser.user_id}/>}/>
         <Route path="/newuser" element={<NewUser goToFreshList={goToFreshList}/>}/>
         <Route path="/tmdetail" element={<TMDetail tm={TMs[userToView]} goToFreshList={goToFreshList}/>}/>
       </Routes>
