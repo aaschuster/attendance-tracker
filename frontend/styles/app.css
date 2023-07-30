@@ -52,35 +52,39 @@ p {
 .tm, .labels {
     display: flex;
     flex-direction: row;
-    margin: auto 2%;
     text-align: center;
 }
 
 .tm {
     line-height: 1.3;
+    width: 100%;
 }
 
 .labels {
     font-size: 1.2rem;
     line-height: 2;
+    width: 95%;
+    margin: 0 auto;
 }
 
 .name {
-    width: 30%;
+    width: 20vw;
 }
 
 .hiredate {
-    width: 15%;
+    width: 20vw;
     min-width: 110px;
 }
 
 .points {
     min-width: 135px;
-    width: 15%;
+    width: 15vw;
 }
 
 .email {
-    width: 40%;
+    width: 40vw;
+    text-align: left;
+    padding: 0 1%;
 } 
 
 .name, .hiredate, .points, .email {
@@ -107,4 +111,19 @@ p {
 
 .currentuser {
     background-color: gainsboro;
+    margin-right: 0;
+}
+
+.tmcontainer {
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.tmcontainer .currentuser {
+    width: calc( 100% - 65px );
+}
+
+.currentuser .email {
+    width: calc( 40vw - 65px );
 }

@@ -9,6 +9,7 @@ import Profile from "./Profile";
 import TMList from "./TMList";
 import TMDetail from "./TMDetail";
 import NewUser from "./NewUser";
+import Account from "./Account";
 
 import "../styles/app.css";
 
@@ -66,6 +67,7 @@ function App() {
         <Route path="/tmlist" element={<TMList TMs={TMs} setUserToView={setUserToView} currentUserID={currentUser.user_id}/>}/>
         <Route path="/newuser" element={<NewUser goToFreshList={goToFreshList}/>}/>
         <Route path="/tmdetail" element={<TMDetail tm={TMs[userToView]} goToFreshList={goToFreshList}/>}/>
+        <Route path="/account" element={<Account/>}/>
       </Routes>
     </div>
   );
