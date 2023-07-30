@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import {Routes, Route, useNavigate} from "react-router-dom";
 import axios from "axios";
 
-import cfalogo from "./cfalogo.png"
+import cfalogo from "../cfalogo.png"
 
 import Login from "./Login";
 import Profile from "./Profile";
@@ -10,7 +10,7 @@ import TMList from "./TMList";
 import TMDetail from "./TMDetail";
 import NewUser from "./NewUser";
 
-import "./styles/app.css";
+import "../styles/app.css";
 
 const initUserValues = {
   email: "",
