@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import bcrypt from "react-native-bcrypt";
 
 function TMDetail( {tm, goToFreshList, isCurrent} ) {
 
@@ -11,6 +12,10 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
             tm[el]="";
     }
 
+    tm.newpassword = "";
+    tm.currentpassword = "";
+    tm.confirmpassword = "";
+
     const [form, setForm] = useState(tm);
     const [err, setErr] = useState("");
 
@@ -20,24 +25,72 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
         setForm({...form, [target.id]: target.value});
     }
 
-    const server = axios.create({
-        baseURL: `http://localhost:${process.env.PORT}`
-    });
+    
+
+    function updateTM(updatedTM) {
+
+        const server = axios.create({
+            baseURL: `http://localhost:${process.env.PORT}`
+        });
+
+        server.put(`${updatedTM.user_id}`, updatedTM)
+            .then( () => goToFreshList())
+            .catch( err => {
+                console.error(err);
+                setErr(err.message);
+            })
+    }
+
+    function passwordErr(err) {
+        setForm({...form, currentpasword: "", newpassword: "", confirmpassword: ""});
+        setErr(err);
+    }
 
     function onSubmit(evt) {
         evt.preventDefault();
 
-        server.put(`/${tm.user_id}`, form)
-            .then( () => {goToFreshList()})
-            .catch( err => {
-                console.log(err);
-                setErr(err.message)
-            });
+        const updatedTM = {
+            firstname: form.firstname,
+            lastname: form.lastname,
+            points: form.points,
+            email: form.email,
+            hiredate: form.hiredate,
+            role_id: form.role_id,
+            password: form.password,
+            user_id: form.user_id
+        }
+
+        let passwordErr = "";
+
+        if(form.newpassword !== form.confirmpassword)
+            passwordErr = "Passwords do not match.";
+
+        if(
+            form.currentpassword && 
+            form.newpassword && 
+            form.confirmpassword &&
+            !passwordErr
+        ) {
+            if(bcrypt.compareSync( form.currentpassword, tm.password )) {
+                updatedTM.password = bcrypt.hashSync(form.newpassword, 8);
+                updateTM(updatedTM);
+                return;
+            } else passwordErr = "Password incorrect.";
+        } 
+        
+        if(!passwordErr && (form.currentpassword || form.newpassword || form.confirmpassword)) {
+            passwordErr = "Please fill out all 3 password fields to change password.";
+        }
+
+        if(passwordErr) {
+            setForm({...form, currentpassword: "", newpassword: "", confirmpassword: ""});
+            setErr(passwordErr);
+        } else updateTM(updatedTM);
     }
 
     return (
-        <div className="userform">
-            <form onSubmit={onSubmit}>
+        <div>
+            <form className="userform" onSubmit={onSubmit}>
                 <label>
                     First name <input type="text" id="firstname" value={form.firstname} onChange={onChange}/>
                 </label>
@@ -48,7 +101,7 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
                     Initial points <input type="number" id="points" value={form.points} onChange={onChange}/>
                 </label>
                 <label>
-                    Email <input type="email" id="email"  value={form.email} onChange={onChange}/>
+                    Email <input type="email" id="email" value={form.email} onChange={onChange}/>
                 </label>
                 <label>
                     Hire date <input type="date" id="hiredate" value={form.hiredate} onChange={onChange}/>
@@ -60,18 +113,27 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
                         <option value={3}>Owner</option>
                     </select>
                 </label>
+                {
+                    isCurrent ?
+                        <div className="userform">
+                            <label>
+                                Current password: <input type="password" id="currentpassword" value={form.currentpassword} onChange={onChange}/>
+                            </label>
+                            <label>
+                                New password: <input type="password" id="newpassword" value={form.newpassword} onChange={onChange}/>
+                            </label>
+                            <label>
+                                Confirm password: <input type="password" id="confirmpassword" value={form.confirmpassword} onChange={onChange}/>
+                            </label>
+                        </div>
+                    : <></>
+                }
 
                 <div className="userformbuttons">
                     <button onClick={() => navigate("/tmlist")}>Cancel changes</button>
                     <button type="submit">Save changes</button>
                 </div>
-                {
-                    isCurrent ?
-                        <div>
-                            Oh Yeah its current!
-                        </div>
-                    : <></>
-                }
+                
             </form>
             <p>{err}</p>
         </div>

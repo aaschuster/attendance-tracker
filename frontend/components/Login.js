@@ -38,7 +38,7 @@ function Login( {getCurrentUserIdx, goToFreshList} ) {
 
     return (
         <div className="login">
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="userform">
                 <input 
                     type="email"
                     id="email"

@@ -33,7 +33,7 @@ h2 {
     font-size: 1.4rem;
 }
 
-form {
+.userform {
     display: flex;
     flex-direction: column;
     justify-content: center;

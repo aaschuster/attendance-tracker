@@ -41,8 +41,8 @@ function NewUser( {goToFreshList} ) {
     }
 
     return (
-        <div className="userform">
-            <form onSubmit={onSubmit}>
+        <div>
+            <form onSubmit={onSubmit} className="userform">
                 <label>
                     First name <input type="text" id="firstname" value={form.firstname} onChange={onChange}/>
                 </label>
