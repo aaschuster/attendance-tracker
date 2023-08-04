@@ -5,7 +5,6 @@ import axios from "axios";
 import cfalogo from "../cfalogo.png"
 
 import Login from "./Login";
-import Profile from "./Profile";
 import TMList from "./TMList";
 import TMDetail from "./TMDetail";
 import NewUser from "./NewUser";
@@ -45,18 +44,24 @@ function App() {
     navigate("/tmlist");
   }
 
+  const logout = () => {
+    localStorage.setItem("token", null);
+    localStorage.setItem("user", null);
+    navigate("/");
+  }
+
   useEffect(() => {
     getTMs();
   }, [])
 
   useEffect(() => {
-    console.log(TMs);
     getCurrentUserIdx(localStorage.getItem("user"));
   }, [TMs])
 
   return (
     <div className="main">
       <h1>Attendance Tracker</h1>
+      <button className="logoutbutton" onClick={logout}>Logout</button>
       <div className="wordmark">
         <img className="logo" src={cfalogo} alt="Chick-Fil-A logo"/>
         <h2>Chick-Fil-A Strongsville</h2>

@@ -4,6 +4,13 @@
     justify-content: center;
 }
 
+.logoutbutton {
+    width: fit-content;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+
 .wordmark {
     display: flex; 
     justify-content: center;

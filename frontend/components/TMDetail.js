@@ -32,9 +32,7 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
     function deleteTM() {
         if(confirm("Delete this team member?")) {
             server.delete(`${tm.user_id}`)
-                .then( () => {
-                    goToFreshList()
-                })
+                .then( () => goToFreshList())
                 .catch( err => {
                     console.error(err);
                     setErr(err.message);
