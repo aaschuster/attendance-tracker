@@ -27,8 +27,7 @@ function Login( {getCurrentUserIdx, goToFreshList} ) {
             .then( res => {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", values.email);
-                getCurrentUserIdx(values.email);
-                goToFreshList();
+                goToFreshList(true);
             })
             .catch(err => {
                 console.error(err);

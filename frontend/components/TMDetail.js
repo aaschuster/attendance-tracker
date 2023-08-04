@@ -32,7 +32,9 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
     function deleteTM() {
         if(confirm("Delete this team member?")) {
             server.delete(`${tm.user_id}`)
-                .then( () => goToFreshList())
+                .then( () => {
+                    goToFreshList()
+                })
                 .catch( err => {
                     console.error(err);
                     setErr(err.message);
@@ -51,8 +53,6 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
     }
 
     function onSubmit(evt) {
-
-        console.log("onsubmit");
 
         evt.preventDefault();
 

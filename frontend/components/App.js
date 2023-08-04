@@ -31,13 +31,13 @@ function App() {
       .catch( err => console.error(err));
   }
 
-  const getCurrentUserIdx = email => {
-    
-    TMs.forEach( (tm, idx) => {
-      if(tm.email === email)
-        setCurrentUserIdx(idx);
-    })
-
+  const getCurrentUserIdx = email => {    
+    if(email) {
+      TMs.forEach( (tm, idx) => {
+        if(tm.email === email)
+          setCurrentUserIdx(idx);
+      })
+    }
   }
 
   const goToFreshList = () => {
@@ -47,9 +47,12 @@ function App() {
 
   useEffect(() => {
     getTMs();
-    const email = localStorage.getItem("user");
-    if(email) getCurrentUserIdx(email);
   }, [])
+
+  useEffect(() => {
+    console.log(TMs);
+    getCurrentUserIdx(localStorage.getItem("user"));
+  }, [TMs])
 
   return (
     <div className="main">

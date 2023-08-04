@@ -24,7 +24,7 @@ function TMList( {TMs, setUserToViewIdx, currentUserIdx} ) {
         
         setOtherTMs(otherTMsArr);
 
-    }, [TMs])
+    }, [TMs, currentUserIdx])
 
     return (
         <div>
