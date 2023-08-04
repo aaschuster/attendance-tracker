@@ -6,7 +6,7 @@ const initFormValues = {
     password: ""
 }
 
-function Login( {getCurrentUserIdx, goToFreshList} ) {
+function Login( {goToFreshList} ) {
 
     const [values, setValues] = useState(initFormValues);
     const [err, setErr] = useState("");

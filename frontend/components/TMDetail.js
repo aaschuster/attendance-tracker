@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import bcrypt from "react-native-bcrypt";
 
-function TMDetail( {tm, goToFreshList, isCurrent} ) {
+function TMDetail( {tm, goToFreshList, isCurrent, logout} ) {
 
     const navigate = useNavigate();
 
@@ -30,9 +30,12 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
     }
 
     function deleteTM() {
-        if(confirm("Delete this team member?")) {
+        if(confirm(isCurrent ? "Are you sure you wish to delete your account? You will be logged out." : "Delete this team member?")) {
             server.delete(`${tm.user_id}`)
-                .then( () => goToFreshList())
+                .then( () => {
+                    if(isCurrent) logout();
+                    else goToFreshList()
+                })
                 .catch( err => {
                     console.error(err);
                     setErr(err.message);
@@ -138,9 +141,7 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
                     <button onClick={() => navigate("/tmlist")}>Cancel changes</button>
                     <button type="submit">Save changes</button>
                 </div>
-                {
-                    isCurrent ? <></> : <button type="button" className="userformbuttons" onClick={deleteTM}>Delete User</button>
-                }
+                <button type="button" className="userformbuttons" onClick={deleteTM}>{isCurrent ? "Delete account" : "Delete team member"}</button>
                 
             </form>
             <p>{err}</p>

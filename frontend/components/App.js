@@ -24,23 +24,10 @@ function App() {
 
   const navigate = useNavigate();
 
-  const getTMs = () => {
+  const goToFreshList = () => {
     server.get("/")
       .then( ({data}) => setTMs(data))
       .catch( err => console.error(err));
-  }
-
-  const getCurrentUserIdx = email => {    
-    if(email) {
-      TMs.forEach( (tm, idx) => {
-        if(tm.email === email)
-          setCurrentUserIdx(idx);
-      })
-    }
-  }
-
-  const goToFreshList = () => {
-    getTMs();
     navigate("/tmlist");
   }
 
@@ -50,12 +37,14 @@ function App() {
     navigate("/");
   }
 
-  useEffect(() => {
-    getTMs();
-  }, [])
-
-  useEffect(() => {
-    getCurrentUserIdx(localStorage.getItem("user"));
+  useEffect(() => {    
+    const email = localStorage.getItem("user");
+    if(email) {
+      TMs.forEach( (tm, idx) => {
+        if(tm.email === email)
+          setCurrentUserIdx(idx);
+      })
+    }
   }, [TMs])
 
   return (
@@ -70,7 +59,6 @@ function App() {
 
         <Route path="/" exact element={
           <Login 
-            getCurrentUserIdx={getCurrentUserIdx}
             goToFreshList={goToFreshList}
           />}
         />
@@ -91,6 +79,7 @@ function App() {
             tm={TMs[userToViewIdx]} 
             goToFreshList={goToFreshList} 
             isCurrent={userToViewIdx===currentUserIdx}
+            logout={logout}
           />}
         />
       </Routes>
