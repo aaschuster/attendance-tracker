@@ -1,4 +1,23 @@
 const Model = require("./model");
+const jwt = require("jsonwebtoken");
+
+function confirmAuthenticated(req, res, next) {
+
+    const token = req.headers.authorization;
+
+    if(token) {
+        jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+            if(err) return next({
+                status: 401,
+                message: "Invalid token"
+            })
+            else next();
+        })
+    } else next({
+        status: 401,
+        message: "Token required"
+    })
+}
 
 async function validateUserID(req, res, next) {
     req.user = await Model.get(req.params.id);
@@ -57,6 +76,7 @@ async function validateUser(req, res, next) {
 }
 
 module.exports = {
+    confirmAuthenticated,
     validateUserID,
     validateUser,
     validateLogin

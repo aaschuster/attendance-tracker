@@ -25,7 +25,10 @@ function App() {
   const navigate = useNavigate();
 
   const goToFreshList = () => {
-    server.get("/")
+    server.get("/", 
+      {headers: {
+        authorization: localStorage.getItem("token")}
+      })
       .then( ({data}) => setTMs(data))
       .catch( err => console.error(err));
     navigate("/tmlist");

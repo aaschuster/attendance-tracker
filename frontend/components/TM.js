@@ -1,9 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 function TM( {isCurrentUser, tm, onClick} ) {
-
-    const navigate = useNavigate();
 
     const classes = `tm${ isCurrentUser ? " currentuser" : ""}`;
 

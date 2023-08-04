@@ -22,7 +22,8 @@ function NewUser( {goToFreshList} ) {
     const [err, setErr] = useState("");
 
     const server = axios.create({
-        baseURL: `http://localhost:${process.env.PORT}`
+        baseURL: `http://localhost:${process.env.PORT}`,
+        headers: {authorization: localStorage.getItem("token")}
     });
 
     function onSubmit(evt) {

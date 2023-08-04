@@ -7,23 +7,23 @@ const server = express();
 server.use(express.json());
 
 const Model = require("./model");
-const {validateUserID, validateUser, validateLogin} = require("./middleware");
+const {confirmAuthenticated, validateUserID, validateUser, validateLogin} = require("./middleware");
 
 server.use(cors());
 
-server.get("/", (req, res, next) => {
+server.get("/", confirmAuthenticated, (req, res, next) => {
     Model.get()
         .then( users => res.json(users))
         .catch(next);        
 })
 
-server.get("/:id", validateUserID, (req, res, next) => {
+server.get("/:id", validateUserID, confirmAuthenticated, (req, res, next) => {
     Model.get(req.params.id)
         .then( user => res.json(user))
         .catch(next);
 })
 
-server.post("/", validateUser, (req, res, next) => {
+server.post("/", validateUser, confirmAuthenticated, (req, res, next) => {
 
     const user = req.body;
 
@@ -56,19 +56,19 @@ server.post("/login", validateLogin, async (req, res, next) => {
         .catch(next);
 });
 
-server.post("/getbyemail", (req, res, next) => {
+server.post("/getbyemail", confirmAuthenticated, (req, res, next) => {
     Model.getBy({email: req.body.email})
         .then( user => res.json(user))
         .catch(next);
 })
 
-server.put("/:id", validateUserID, validateUser, (req, res, next) => {
+server.put("/:id", validateUserID, validateUser, confirmAuthenticated, (req, res, next) => {
     Model.update(req.body, req.params.id)
         .then( numOfRecs => res.json(numOfRecs))
         .catch(next);
 })
 
-server.delete("/:id", validateUserID, (req, res, next) => {
+server.delete("/:id", validateUserID, confirmAuthenticated, (req, res, next) => {
     Model.del(req.params.id)
         .then( numOfRecs => res.json(numOfRecs))
         .catch(next);

@@ -17,7 +17,8 @@ function TMDetail( {tm, goToFreshList, isCurrent, logout} ) {
     tm.confirmpassword = "";
 
     const server = axios.create({
-        baseURL: `http://localhost:${process.env.PORT}`
+        baseURL: `http://localhost:${process.env.PORT}`,
+        headers: {authorization: localStorage.getItem("token")}
     });
 
     const [form, setForm] = useState(tm);
