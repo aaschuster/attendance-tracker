@@ -16,6 +16,10 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
     tm.currentpassword = "";
     tm.confirmpassword = "";
 
+    const server = axios.create({
+        baseURL: `http://localhost:${process.env.PORT}`
+    });
+
     const [form, setForm] = useState(tm);
     const [err, setErr] = useState("");
 
@@ -25,14 +29,19 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
         setForm({...form, [target.id]: target.value});
     }
 
-    
+    function deleteTM() {
+        if(confirm("Delete this team member?")) {
+            server.delete(`${tm.user_id}`)
+                .then( () => goToFreshList())
+                .catch( err => {
+                    console.error(err);
+                    setErr(err.message);
+                })
+        }
+        
+    }
 
     function updateTM(updatedTM) {
-
-        const server = axios.create({
-            baseURL: `http://localhost:${process.env.PORT}`
-        });
-
         server.put(`${updatedTM.user_id}`, updatedTM)
             .then( () => goToFreshList())
             .catch( err => {
@@ -41,12 +50,10 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
             })
     }
 
-    function passwordErr(err) {
-        setForm({...form, currentpasword: "", newpassword: "", confirmpassword: ""});
-        setErr(err);
-    }
-
     function onSubmit(evt) {
+
+        console.log("onsubmit");
+
         evt.preventDefault();
 
         const updatedTM = {
@@ -133,6 +140,9 @@ function TMDetail( {tm, goToFreshList, isCurrent} ) {
                     <button onClick={() => navigate("/tmlist")}>Cancel changes</button>
                     <button type="submit">Save changes</button>
                 </div>
+                {
+                    isCurrent ? <></> : <button type="button" className="userformbuttons" onClick={deleteTM}>Delete User</button>
+                }
                 
             </form>
             <p>{err}</p>
