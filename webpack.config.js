@@ -54,7 +54,17 @@ const config = {
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
-        use: { loader: BABEL_LOADER },
+        use: { 
+          loader: BABEL_LOADER, 
+          options: {
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+            ],
+
+            plugins: ["@babel/plugin-transform-react-jsx"]
+          }
+        },
       },
       {
         test: /\.css$/i,

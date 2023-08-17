@@ -10,6 +10,7 @@ import TMDetail from "./TMDetail";
 import NewUser from "./NewUser";
 
 import "../styles/app.css";
+import exampleData from "../example-data";
 
 const server = axios.create({
   baseURL: `http://localhost:${process.env.PORT}`
@@ -40,6 +41,12 @@ function App() {
     navigate("/");
   }
 
+  useEffect(() => {
+    if(process.env.EXAMPLE) {
+      setTMs(exampleData);
+    }
+  }, [])
+
   useEffect(() => {    
     const email = localStorage.getItem("user");
     if(email) {
@@ -62,6 +69,7 @@ function App() {
 
         <Route path="/" exact element={
           <Login 
+            TMs={TMs}
             goToFreshList={goToFreshList}
           />}
         />

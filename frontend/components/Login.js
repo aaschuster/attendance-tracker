@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from "axios";
 
+const example = process.env.EXAMPLE;
+
 const initFormValues = {
     email: "",
     password: ""
 }
 
-function Login( {goToFreshList} ) {
+function Login( {TMs, goToFreshList} ) {
 
     const [values, setValues] = useState(initFormValues);
     const [err, setErr] = useState("");
@@ -17,7 +19,14 @@ function Login( {goToFreshList} ) {
         setValues({...values, [id]: value})
     }
 
-    const onSubmit = evt => {
+    const JSONLogin = evt => {
+        evt.preventDefault();
+
+        const user = TMs.filter(TM => TM.email === values.email);
+        console.log(user);
+    }
+
+    const APILogin = evt => {
         evt.preventDefault();
 
         axios.post(`http://localhost:${process.env.PORT}/login`, {
@@ -27,7 +36,7 @@ function Login( {goToFreshList} ) {
             .then( res => {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", values.email);
-                goToFreshList(true);
+                goToFreshList();
             })
             .catch(err => {
                 console.error(err);
@@ -37,7 +46,7 @@ function Login( {goToFreshList} ) {
 
     return (
         <div className="login">
-            <form onSubmit={onSubmit} className="userform">
+            <form onSubmit={example ? JSONLogin : APILogin} className="userform">
                 <input 
                     type="email"
                     id="email"
