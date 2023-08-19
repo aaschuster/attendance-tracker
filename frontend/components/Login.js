@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import bcrypt from "react-native-bcrypt";
+import { buildToken } from "../buildtoken";
 
-const example = process.env.EXAMPLE;
+const example = process.env.EXAMPLE === "true" ? true : false;
 
 const initFormValues = {
     email: "",
@@ -22,8 +24,17 @@ function Login( {TMs, goToFreshList} ) {
     const JSONLogin = evt => {
         evt.preventDefault();
 
-        const user = TMs.filter(TM => TM.email === values.email);
-        console.log(user);
+        const [user] = TMs.filter(TM => TM.email === values.email);
+
+        if(user && bcrypt.compareSync(values.password, user.password)) {
+
+            localStorage.setItem("token", buildToken(user.email));
+            localStorage.setItem("user", values.email);
+            goToFreshList();
+
+        } else {
+            setErr("Login failed");
+        }
     }
 
     const APILogin = evt => {
