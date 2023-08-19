@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function NewUser( {goToFreshList} ) {
+function NewUser( {goToFreshList, addNewUser} ) {
 
     let today = new Date().toJSON();
     today = today.slice(0, 10);
@@ -31,9 +31,14 @@ function NewUser( {goToFreshList} ) {
         if(form.email == "")
             form.email = null;
                     
-        server.post("/", form)
-            .then( res => goToFreshList())
-            .catch( err => setErr("Failed to add team member."));
+        if(process.env.EXAMPLE === "true") {
+            addNewUser(form);
+            goToFreshList();
+        } else {
+            server.post("/", form)
+                .then( res => goToFreshList())
+                .catch( err => setErr("Failed to add team member."));
+        }
     }
 
     function onChange(evt) {

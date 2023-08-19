@@ -66,6 +66,10 @@ function App() {
     setTMs( newTMList );
   }
 
+  const addNewUser = newUser => {
+    setTMs([...TMs, newUser]);
+  }
+
   useEffect(() => {
     if(process.env.EXAMPLE) {
       setTMs(exampleData);
@@ -102,7 +106,7 @@ function App() {
         />
 
         <Route path="/newuser" element={
-          <NewUser goToFreshList={goToFreshList}/>}
+          <NewUser goToFreshList={goToFreshList} addNewUser={addNewUser}/>}
         />
         <Route path="/tmdetail" element={
           <TMDetail 
