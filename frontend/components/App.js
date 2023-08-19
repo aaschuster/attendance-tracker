@@ -55,6 +55,10 @@ function App() {
     navigate("/");
   }
 
+  const deleteViewedUser = () => {
+    setTMs( TMs.filter((TM, idx) => idx !== userToViewIdx));
+  }
+
   useEffect(() => {
     if(process.env.EXAMPLE) {
       setTMs(exampleData);
@@ -99,6 +103,7 @@ function App() {
             goToFreshList={goToFreshList} 
             isCurrent={userToViewIdx===currentUserIdx}
             logout={logout}
+            deleteViewedUser={deleteViewedUser}
           />}
         />
       </Routes>
