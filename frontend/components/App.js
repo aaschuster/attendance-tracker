@@ -26,13 +26,27 @@ function App() {
   const navigate = useNavigate();
 
   const goToFreshList = () => {
-    server.get("/", 
-      {headers: {
-        authorization: localStorage.getItem("token")}
-      })
-      .then( ({data}) => setTMs(data))
-      .catch( err => console.error(err));
+    if(process.env.EXAMPLE === "true") {
+      getCurrentUserIdx();
+    } else {
+      server.get("/", 
+        {headers: {
+          authorization: localStorage.getItem("token")}
+        })
+        .then( ({data}) => setTMs(data))
+        .catch( err => console.error(err));
+    }
     navigate("/tmlist");
+  }
+
+  const getCurrentUserIdx = () => {
+    const email = localStorage.getItem("user");
+    if(email) {
+      TMs.forEach( (tm, idx) => {
+        if(tm.email === email)
+          setCurrentUserIdx(idx);
+      })
+    }
   }
 
   const logout = () => {
@@ -48,13 +62,7 @@ function App() {
   }, [])
 
   useEffect(() => {    
-    const email = localStorage.getItem("user");
-    if(email) {
-      TMs.forEach( (tm, idx) => {
-        if(tm.email === email)
-          setCurrentUserIdx(idx);
-      })
-    }
+    getCurrentUserIdx();          
   }, [TMs])
 
   return (
