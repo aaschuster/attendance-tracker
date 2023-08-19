@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import bcrypt from "react-native-bcrypt";
-import { buildToken } from "../buildtoken";
+import * as jwt from "jsonwebtoken";
 
 const example = process.env.EXAMPLE === "true" ? true : false;
 
@@ -28,7 +28,13 @@ function Login( {TMs, goToFreshList} ) {
 
         if(user && bcrypt.compareSync(values.password, user.password)) {
 
-            localStorage.setItem("token", buildToken(user.email));
+            const token = jwt.sign(
+                {email: user.email},
+                process.env.JWT_KEY,
+                {expiresIn: '1h'}
+            )
+
+            localStorage.setItem("token", token);
             localStorage.setItem("user", values.email);
             goToFreshList();
 
