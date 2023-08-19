@@ -5,7 +5,7 @@ import bcrypt from "react-native-bcrypt";
 
 const example = process.env.EXAMPLE === "true" ? true : false;
 
-function TMDetail( {tm, goToFreshList, isCurrent, logout, deleteViewedUser} ) {
+function TMDetail( {tm, goToFreshList, isCurrent, logout, deleteViewedUser, updateViewedUser} ) {
 
     const navigate = useNavigate();
 
@@ -54,12 +54,17 @@ function TMDetail( {tm, goToFreshList, isCurrent, logout, deleteViewedUser} ) {
     }
 
     function updateTM(updatedTM) {
-        server.put(`${updatedTM.user_id}`, updatedTM)
-            .then( () => goToFreshList())
-            .catch( err => {
-                console.error(err);
-                setErr(err.message);
-            })
+        if(example) {
+            updateViewedUser(updatedTM);
+            goToFreshList();
+        } else {
+            server.put(`${updatedTM.user_id}`, updatedTM)
+                .then( () => goToFreshList())
+                .catch( err => {
+                    console.error(err);
+                    setErr(err.message);
+                })
+        }
     }
 
     function onSubmit(evt) {

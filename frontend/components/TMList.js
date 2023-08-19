@@ -17,10 +17,12 @@ function TMList( {TMs, setUserToViewIdx, currentUserIdx} ) {
 
         const otherTMsArr = [];
 
-        TMs.forEach( (tm, idx) => {
-            if(currentUserIdx !== idx)
-                otherTMsArr.push(idx);
-        })
+        if(TMs) {
+            TMs.forEach( (tm, idx) => {
+                if(currentUserIdx !== idx)
+                    otherTMsArr.push(idx);
+            })            
+        }
         
         setOtherTMs(otherTMsArr);
 

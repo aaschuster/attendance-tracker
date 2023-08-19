@@ -41,7 +41,7 @@ function App() {
 
   const getCurrentUserIdx = () => {
     const email = localStorage.getItem("user");
-    if(email) {
+    if(email && TMs) {
       TMs.forEach( (tm, idx) => {
         if(tm.email === email)
           setCurrentUserIdx(idx);
@@ -57,6 +57,13 @@ function App() {
 
   const deleteViewedUser = () => {
     setTMs( TMs.filter((TM, idx) => idx !== userToViewIdx));
+  }
+
+  const updateViewedUser = updatedUser => {
+    let newTMList = TMs.filter((TM, idx) => idx !== userToViewIdx); 
+    newTMList.push(updatedUser);
+
+    setTMs( newTMList );
   }
 
   useEffect(() => {
@@ -104,6 +111,7 @@ function App() {
             isCurrent={userToViewIdx===currentUserIdx}
             logout={logout}
             deleteViewedUser={deleteViewedUser}
+            updateViewedUser={updateViewedUser}
           />}
         />
       </Routes>
