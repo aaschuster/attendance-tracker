@@ -10,7 +10,6 @@ import TMDetail from "./TMDetail";
 import NewUser from "./NewUser";
 
 import "../styles/app.css";
-import exampleData from "../example-data";
 
 import {serverURL} from "../../consts"
 
@@ -28,16 +27,12 @@ function App() {
   const navigate = useNavigate();
 
   const goToFreshList = () => {
-    if(process.env.EXAMPLE === "true") {
-      getCurrentUserIdx();
-    } else {
-      server.get("/", 
-        {headers: {
-          authorization: localStorage.getItem("token")}
-        })
-        .then( ({data}) => setTMs(data))
-        .catch( err => console.error(err));
-    }
+    server.get("/", 
+      {headers: {
+        authorization: localStorage.getItem("token")}
+      })
+      .then( ({data}) => setTMs(data))
+      .catch( err => console.error(err));
     navigate("/tmlist");
   }
 
@@ -56,27 +51,6 @@ function App() {
     localStorage.setItem("user", null);
     navigate("/");
   }
-
-  const deleteViewedUser = () => {
-    setTMs( TMs.filter((TM, idx) => idx !== userToViewIdx));
-  }
-
-  const updateViewedUser = updatedUser => {
-    let newTMList = TMs.filter((TM, idx) => idx !== userToViewIdx); 
-    newTMList.push(updatedUser);
-
-    setTMs( newTMList );
-  }
-
-  const addNewUser = newUser => {
-    setTMs([...TMs, newUser]);
-  }
-
-  useEffect(() => {
-    if(process.env.EXAMPLE) {
-      setTMs(exampleData);
-    }
-  }, [])
 
   useEffect(() => {    
     getCurrentUserIdx();          
@@ -108,7 +82,7 @@ function App() {
         />
 
         <Route path="/newuser" element={
-          <NewUser goToFreshList={goToFreshList} addNewUser={addNewUser}/>}
+          <NewUser goToFreshList={goToFreshList}/>}
         />
         <Route path="/tmdetail" element={
           <TMDetail 
@@ -116,8 +90,6 @@ function App() {
             goToFreshList={goToFreshList} 
             isCurrent={userToViewIdx===currentUserIdx}
             logout={logout}
-            deleteViewedUser={deleteViewedUser}
-            updateViewedUser={updateViewedUser}
           />}
         />
       </Routes>

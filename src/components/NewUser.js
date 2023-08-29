@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { serverURL } from "../../consts";
 
-function NewUser( {goToFreshList, addNewUser} ) {
+function NewUser( {goToFreshList} ) {
 
     let today = new Date().toJSON();
     today = today.slice(0, 10);
@@ -33,14 +33,9 @@ function NewUser( {goToFreshList, addNewUser} ) {
         if(form.email == "")
             form.email = null;
                     
-        if(process.env.EXAMPLE === "true") {
-            addNewUser(form);
-            goToFreshList();
-        } else {
-            server.post("/", form)
-                .then( res => goToFreshList())
-                .catch( err => setErr("Failed to add team member."));
-        }
+        server.post("/", form)
+            .then( res => goToFreshList())
+            .catch( err => setErr("Failed to add team member."));
     }
 
     function onChange(evt) {

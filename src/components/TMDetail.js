@@ -5,9 +5,7 @@ import bcrypt from "react-native-bcrypt";
 
 import { serverURL } from "../../consts"
 
-const example = process.env.EXAMPLE === "true" ? true : false;
-
-function TMDetail( {tm, goToFreshList, isCurrent, logout, deleteViewedUser, updateViewedUser} ) {
+function TMDetail( {tm, goToFreshList, isCurrent, logout} ) {
 
     const navigate = useNavigate();
 
@@ -36,37 +34,26 @@ function TMDetail( {tm, goToFreshList, isCurrent, logout, deleteViewedUser, upda
 
     function deleteTM() {
         if(confirm(isCurrent ? "Are you sure you wish to delete your account? You will be logged out." : "Delete this team member?")) {
-            if(example) {
-                deleteViewedUser();
-                if(isCurrent) logout();
-                else goToFreshList()
-            } else {
-                server.delete(`${tm.user_id}`)
-                    .then( () => {
-                        if(isCurrent) logout();
-                        else goToFreshList()
-                    })
-                    .catch( err => {
-                        console.error(err);
-                        setErr(err.message);
-                    })
-            }
-        }
-        
-    }
-
-    function updateTM(updatedTM) {
-        if(example) {
-            updateViewedUser(updatedTM);
-            goToFreshList();
-        } else {
-            server.put(`${updatedTM.user_id}`, updatedTM)
-                .then( () => goToFreshList())
+            server.delete(`${tm.user_id}`)
+                .then( () => {
+                    if(isCurrent) logout();
+                    else goToFreshList()
+                })
                 .catch( err => {
                     console.error(err);
                     setErr(err.message);
                 })
         }
+        
+    }
+
+    function updateTM(updatedTM) {
+        server.put(`${updatedTM.user_id}`, updatedTM)
+            .then( () => goToFreshList())
+            .catch( err => {
+                console.error(err);
+                setErr(err.message);
+            })
     }
 
     function onSubmit(evt) {

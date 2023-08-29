@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import bcrypt from "react-native-bcrypt";
-import * as jwt from "jsonwebtoken";
 
 import { serverURL } from "../../consts";
-
-const example = process.env.EXAMPLE === "true" ? true : false;
 
 const initFormValues = {
     email: "",
@@ -18,37 +14,13 @@ function Login( {TMs, goToFreshList} ) {
     const [values, setValues] = useState(initFormValues);
     const [err, setErr] = useState("");
 
-    const navigate = useNavigate();
-
     const onChange = evt => {
         setErr("");
         const { id, value } = evt.target;
         setValues({...values, [id]: value})
     }
 
-    const JSONLogin = evt => {
-        evt.preventDefault();
-
-        const [user] = TMs.filter(TM => TM.email === values.email);
-
-        if(user && bcrypt.compareSync(values.password, user.password)) {
-
-            const token = jwt.sign(
-                {email: user.email},
-                process.env.JWT_KEY,
-                {expiresIn: '1h'}
-            )
-
-            localStorage.setItem("token", token);
-            localStorage.setItem("user", values.email);
-            goToFreshList();
-
-        } else {
-            setErr("Login failed");
-        }
-    }
-
-    const APILogin = evt => {
+    const login = evt => {
         evt.preventDefault();
 
         axios.post(`${serverURL}/login`, {
@@ -68,7 +40,7 @@ function Login( {TMs, goToFreshList} ) {
 
     return (
         <div className="login">
-            <form onSubmit={example ? JSONLogin : APILogin} className="userform">
+            <form onSubmit={login} className="userform">
                 <input 
                     type="email"
                     id="email"
