@@ -11,7 +11,7 @@ import NewUser from "./NewUser";
 
 import "../styles/app.css";
 
-import {serverURL} from "../../consts"
+import {serverURL} from "../consts"
 
 const server = axios.create({
   baseURL: serverURL

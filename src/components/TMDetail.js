@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import bcrypt from "react-native-bcrypt";
 
-import { serverURL } from "../../consts"
+import { serverURL } from "../consts"
 
 function TMDetail( {tm, goToFreshList, isCurrent, logout} ) {
 

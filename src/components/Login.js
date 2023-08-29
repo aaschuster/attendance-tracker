@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { serverURL } from "../../consts";
+import { serverURL } from "../consts";
 
 const initFormValues = {
     email: "",
