@@ -3,6 +3,8 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import bcrypt from "react-native-bcrypt";
 
+import { serverURL } from "../../consts"
+
 const example = process.env.EXAMPLE === "true" ? true : false;
 
 function TMDetail( {tm, goToFreshList, isCurrent, logout, deleteViewedUser, updateViewedUser} ) {
@@ -19,7 +21,7 @@ function TMDetail( {tm, goToFreshList, isCurrent, logout, deleteViewedUser, upda
     tm.confirmpassword = "";
 
     const server = axios.create({
-        baseURL: `http://localhost:${process.env.PORT}`,
+        baseURL: serverURL,
         headers: {authorization: localStorage.getItem("token")}
     });
 

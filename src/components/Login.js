@@ -4,6 +4,8 @@ import axios from "axios";
 import bcrypt from "react-native-bcrypt";
 import * as jwt from "jsonwebtoken";
 
+import { serverURL } from "../../consts";
+
 const example = process.env.EXAMPLE === "true" ? true : false;
 
 const initFormValues = {
@@ -49,7 +51,7 @@ function Login( {TMs, goToFreshList} ) {
     const APILogin = evt => {
         evt.preventDefault();
 
-        axios.post(`http://localhost:${process.env.PORT}/login`, {
+        axios.post(`${serverURL}/login`, {
             email: values.email,
             password: values.password
         })

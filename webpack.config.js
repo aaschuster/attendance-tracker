@@ -17,8 +17,8 @@ const FILE_LOADER = 'file-loader';
 const SERVER_URL = /http:\/\/localhost:1234/g
 const FRONTEND_PORT = 3000
 
-const INDEX_HTML_PATH = './frontend/index.html'
-const INDEX_JS_PATH = './frontend/index.js'
+const INDEX_HTML_PATH = './src/index.html'
+const INDEX_JS_PATH = './src/index.js'
 const DIST_FOLDER = 'dist'
 const BUNDLE_FILE = 'index.js'
 
@@ -76,13 +76,13 @@ const config = {
         use: { loader: HTML_LOADER }
       },
       {
-        test: /\.m?js$/,
+        test: /\.m?js|jsx$/,
         exclude: /node_modules/,
         use: { 
           loader: BABEL_LOADER, 
           options: {
             presets: [
-              '@babel/preset-env',
+              '@babel/env',
               '@babel/preset-react',
             ],
 

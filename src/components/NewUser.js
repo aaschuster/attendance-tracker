@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import { serverURL } from "../../consts";
+
 function NewUser( {goToFreshList, addNewUser} ) {
 
     let today = new Date().toJSON();
@@ -22,7 +24,7 @@ function NewUser( {goToFreshList, addNewUser} ) {
     const [err, setErr] = useState("");
 
     const server = axios.create({
-        baseURL: `http://localhost:${process.env.PORT}`,
+        baseURL: serverURL,
         headers: {authorization: localStorage.getItem("token")}
     });
 

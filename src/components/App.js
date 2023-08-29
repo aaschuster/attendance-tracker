@@ -12,8 +12,10 @@ import NewUser from "./NewUser";
 import "../styles/app.css";
 import exampleData from "../example-data";
 
+import {serverURL} from "../../consts"
+
 const server = axios.create({
-  baseURL: `http://localhost:${process.env.PORT}`
+  baseURL: serverURL
 });
 
 function App() {
