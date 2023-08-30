@@ -33,7 +33,7 @@ function TMDetail( {tm, goToFreshList, isCurrent, logout} ) {
     }
 
     function deleteTM() {
-        if(confirm(isCurrent ? "Are you sure you wish to delete your account? You will be logged out." : "Delete this team member?")) {
+        if(window.confirm(isCurrent ? "Are you sure you wish to delete your account? You will be logged out." : "Delete this team member?")) {
             server.delete(`${tm.user_id}`)
                 .then( () => {
                     if(isCurrent) logout();
