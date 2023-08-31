@@ -21,6 +21,7 @@ function Login( {TMs, goToFreshList} ) {
     }
 
     const login = evt => {
+        setErr("This may take a minute, thanks for your patience...")
         evt.preventDefault();
 
         axios.post(`${serverURL}/login`, {
@@ -28,6 +29,7 @@ function Login( {TMs, goToFreshList} ) {
             password: values.password
         })
             .then( res => {
+                setErr("");
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", values.email);
                 goToFreshList();
