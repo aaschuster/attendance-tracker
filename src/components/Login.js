@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { serverURL } from "../consts";
@@ -12,16 +11,19 @@ const initFormValues = {
 function Login( {TMs, goToFreshList} ) {
 
     const [values, setValues] = useState(initFormValues);
-    const [err, setErr] = useState("");
+    const [message, setMessage] = useState("");
+    const [formDisabled, setFormDisabled] = useState(false);
 
     const onChange = evt => {
-        setErr("");
+        setMessage("");
         const { id, value } = evt.target;
         setValues({...values, [id]: value})
     }
 
     const login = evt => {
         evt.preventDefault();
+        setMessage("This may take a minute, thanks for your patience...");
+        setFormDisabled(true);
 
         axios.post(`${serverURL}/login`, {
             email: values.email,
@@ -34,7 +36,8 @@ function Login( {TMs, goToFreshList} ) {
             })
             .catch(err => {
                 console.error(err);
-                setErr("Login failed");
+                setMessage("Login failed");
+                setFormDisabled(false);
             });
     }
 
@@ -43,10 +46,11 @@ function Login( {TMs, goToFreshList} ) {
             <form onSubmit={login} className="userform">
                 <input 
                     type="email"
-                    id="email"
+                    id="email"      
                     placeholder="Email..."
                     value={values.email}
                     onChange={onChange}
+                    disabled={formDisabled}
                 />
                 <input
                     type="password"
@@ -54,9 +58,13 @@ function Login( {TMs, goToFreshList} ) {
                     placeholder="Password..."
                     value={values.password}
                     onChange={onChange}
+                    disabled={formDisabled}
                 />
-                <button type="submit">Login</button>
-                <p>{err}</p>
+                {formDisabled ? 
+                    <button onClick={() => window.location.reload()}>Cancel</button> :
+                    <button type="submit">Login</button> 
+                }
+                <p>{message}</p>
             </form>
         </div>
     )
